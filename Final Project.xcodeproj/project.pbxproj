@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3F51EA9426F24BA900E7126E /* SwiftUIViewGame.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F51EA9326F24BA900E7126E /* SwiftUIViewGame.swift */; };
 		3FB4933226F0FC70001ED4EB /* Final_ProjectApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FB4933126F0FC70001ED4EB /* Final_ProjectApp.swift */; };
 		3FB4933426F0FC70001ED4EB /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FB4933326F0FC70001ED4EB /* ContentView.swift */; };
 		3FB4933626F0FC77001ED4EB /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3FB4933526F0FC77001ED4EB /* Assets.xcassets */; };
@@ -33,6 +34,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		3F51EA9326F24BA900E7126E /* SwiftUIViewGame.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftUIViewGame.swift; sourceTree = "<group>"; };
 		3FB4932E26F0FC70001ED4EB /* Final Project.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Final Project.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		3FB4933126F0FC70001ED4EB /* Final_ProjectApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Final_ProjectApp.swift; sourceTree = "<group>"; };
 		3FB4933326F0FC70001ED4EB /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -97,6 +99,7 @@
 			children = (
 				3FB4933126F0FC70001ED4EB /* Final_ProjectApp.swift */,
 				3FB4933326F0FC70001ED4EB /* ContentView.swift */,
+				3F51EA9326F24BA900E7126E /* SwiftUIViewGame.swift */,
 				3FB4933526F0FC77001ED4EB /* Assets.xcassets */,
 				3FB4933A26F0FC77001ED4EB /* Info.plist */,
 				3FB4933726F0FC77001ED4EB /* Preview Content */,
@@ -259,6 +262,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3F51EA9426F24BA900E7126E /* SwiftUIViewGame.swift in Sources */,
 				3FB4933426F0FC70001ED4EB /* ContentView.swift in Sources */,
 				3FB4933226F0FC70001ED4EB /* Final_ProjectApp.swift in Sources */,
 			);
