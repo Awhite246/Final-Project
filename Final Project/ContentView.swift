@@ -8,24 +8,47 @@
 import SwiftUI
 
 struct ContentView: View {
-    @State private var charName = ""
+    @State private var characterName = ""
+    @State private var charPic = "Zebra"
     var body: some View {
         NavigationView{
             VStack{
                 CustomTitleText(text: "The Hunt for the Irish Disco King and his Merciless Gnome Squadron")
-                NavigationLink("Character Select", destination: CharacterSelect(charName: $charName))
+                CustomTextField(placeholder: "Enter in your name", variable: $characterName)
+                CustomText(text: "Click to change your character")
+                Image(charPic)
+                    .resizable()
+                    .frame(width: 100, height: 100, alignment: .center)
+                    .aspectRatio(contentMode: .fit)
+                    .cornerRadius(30)
+                    
+                    .onTapGesture {
+                        withAnimation(Animation.easeIn){
+                            if (charPic == "Zebra"){
+                                charPic = "Cat"
+                            }else if(charPic == "Cat"){
+                                charPic = "Dog"
+                            }else if(charPic == "Dog"){
+                                charPic = "Zebra"
+                            }
+                        }
+                    }
+                    .rotation3DEffect(
+                        .init(degrees: 0),
+                        axis: (x: 0.0, y: 1.0, z: 0.0)
+                    )
+                NavigationLink("Play Game", destination: SwiftUIViewGame(characterName: characterName).navigationBarBackButtonHidden(true))
                     .font(.title2)
                     .padding()
-                NavigationLink("Play Game", destination: SwiftUIViewGame().navigationBarBackButtonHidden(true))
-                    .font(.title2)
-                    .padding()
+                if (characterName == ""){
+                    CustomText(text: "Hello Username!")
+                }else{
+                    CustomText(text: "Hello \(characterName)!")
+                }
                 Spacer()
             }
         }
-        .preferredColorScheme(.light)
-        .navigationBarTitle("Main Menu", displayMode: .inline)
     }
-    
 }
 struct CustomText: View{
     let text:String
@@ -54,37 +77,6 @@ struct CustomTextField: View {
             .frame(width: 200, height: 30, alignment: .center)
             .font(.body)
             .padding()
-    }
-}
-struct CharacterSelect: View{
-    let charName: Binding<String>
-    @State private var charPic = "Zebra"
-    var body: some View{
-        VStack{
-            CustomTextField(placeholder: "Enter in your name", variable: charName)
-            CustomText(text: "Click to change your character")
-            Image(charPic)
-                .resizable()
-                .frame(width: 100, height: 100, alignment: .center)
-                .aspectRatio(contentMode: .fit)
-                .cornerRadius(30)
-                
-                .onTapGesture {
-                    withAnimation(Animation.easeIn){
-                        if (charPic == "Zebra"){
-                            charPic = "Cat"
-                        }else if(charPic == "Cat"){
-                            charPic = "Dog"
-                        }else if(charPic == "Dog"){
-                            charPic = "Zebra"
-                        }
-                    }
-                }
-                .rotation3DEffect(
-                    .init(degrees: 0),
-                    axis: (x: 0.0, y: 1.0, z: 0.0)
-                )
-        }
     }
 }
 struct ContentView_Previews: PreviewProvider {

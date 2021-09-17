@@ -8,13 +8,14 @@
 import SwiftUI
 
 struct SwiftUIViewGame: View {
-    var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+    let characterName : String
+    var body: some View{
+        CustomText(text: "hello world")
     }
 }
 
 struct SwiftUIViewGame_Previews: PreviewProvider {
     static var previews: some View {
-        SwiftUIViewGame()
+        SwiftUIViewGame(characterName: "")
     }
 }
