@@ -18,28 +18,26 @@ struct ContentView: View {
                 CustomText(text: "Click to change your character")
                 Image(charPic)
                     .resizable()
-                    .frame(width: 100, height: 100, alignment: .center)
+                    .frame(width: 125, height: 125, alignment: .center)
                     .aspectRatio(contentMode: .fit)
                     .cornerRadius(30)
                     
                     .onTapGesture {
-                        withAnimation(Animation.easeIn){
-                            if (charPic == "Zebra"){
-                                charPic = "Cat"
-                            }else if(charPic == "Cat"){
-                                charPic = "Dog"
-                            }else if(charPic == "Dog"){
-                                charPic = "Zebra"
-                            }
+                        
+                        if (charPic == "Zebra"){
+                            charPic = "Cat"
+                        }else if(charPic == "Cat"){
+                            charPic = "Dog"
+                        }else if(charPic == "Dog"){
+                            charPic = "Zebra"
                         }
+                        
                     }
-                    .rotation3DEffect(
-                        .init(degrees: 0),
-                        axis: (x: 0.0, y: 1.0, z: 0.0)
-                    )
-                NavigationLink("Play Game", destination: SwiftUIViewGame(characterName: characterName).navigationBarBackButtonHidden(true))
+                NavigationLink("Play Game", destination: SwiftUIViewGame(characterName: characterName, characterPic: charPic).navigationBarBackButtonHidden(true))
+                    .disabled(characterName == "")
                     .font(.title2)
                     .padding()
+                
                 if (characterName == ""){
                     CustomText(text: "Hello Username!")
                 }else{
@@ -48,6 +46,7 @@ struct ContentView: View {
                 Spacer()
             }
         }
+        .preferredColorScheme(.dark)
     }
 }
 struct CustomText: View{
@@ -77,6 +76,22 @@ struct CustomTextField: View {
             .frame(width: 200, height: 30, alignment: .center)
             .font(.body)
             .padding()
+    }
+}
+struct CustomTop: View {
+    let characterName : String
+    let characterPic : String
+    var body: some View{
+        HStack{
+            Spacer()
+            CustomText(text: characterName)
+                .frame(height: 50, alignment: .topLeading)
+            Image(characterPic)
+                .resizable()
+                .frame(width: 50, height: 50, alignment: .topTrailing)
+                .aspectRatio(contentMode: .fit)
+                .cornerRadius(15)
+        }
     }
 }
 struct ContentView_Previews: PreviewProvider {

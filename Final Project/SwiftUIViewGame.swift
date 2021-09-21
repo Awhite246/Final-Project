@@ -9,13 +9,19 @@ import SwiftUI
 
 struct SwiftUIViewGame: View {
     let characterName : String
+    let characterPic : String
     var body: some View{
-        CustomText(text: "hello world")
+        VStack{
+            CustomTop(characterName: characterName, characterPic: characterPic)
+            CustomText(text: "hello world")
+            Spacer()
+        }
+        .preferredColorScheme(.dark)
     }
 }
 
 struct SwiftUIViewGame_Previews: PreviewProvider {
     static var previews: some View {
-        SwiftUIViewGame(characterName: "")
+        SwiftUIViewGame(characterName: "", characterPic: "Zebra")
     }
 }
