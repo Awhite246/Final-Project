@@ -78,11 +78,13 @@ struct CustomTextField: View {
             .padding()
     }
 }
-struct CustomTop: View {
+struct CustomTop: View{
     let characterName : String
     let characterPic : String
+    let pageNum : Int
     var body: some View{
         HStack{
+            CustomText(text: "Page Number: \(pageNum)")
             Spacer()
             CustomText(text: characterName)
                 .frame(height: 50, alignment: .topLeading)
