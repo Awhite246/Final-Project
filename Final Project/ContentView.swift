@@ -81,10 +81,10 @@ struct CustomTextField: View {
 struct CustomTop: View{
     let characterName : String
     let characterPic : String
-    let pageNum : Int
+    let choicePath : Int
     var body: some View{
         HStack{
-            CustomText(text: "Page Number: \(pageNum)")
+            CustomText(text: "Path: \(choicePath)")
             Spacer()
             CustomText(text: characterName)
                 .frame(height: 50, alignment: .topLeading)
