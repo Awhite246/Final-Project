@@ -2,129 +2,225 @@
 //  SwiftUIViewGame.swift
 //  Final Project
 //
-//  Created by Student on 9/15/21.
+//  Created by Alistair on 9/15/21.
 //
 
 import SwiftUI
+import Foundation
 
 struct SwiftUIViewGame: View {
     let characterName : String
     let characterPic : String
     @State private var screenCounter = 0;
-    @State private var titleText = "Title"
-    @State private var bodyText = "Body"
-    @State private var choice1 = "Choice 1"
-    @State private var choice2 = "Choice 2"
+    @State private var titleText = ""
+    @State private var bodyText = ""
+    @State private var choice1 = ""
+    @State private var choice2 = ""
     @State private var choicePath = ""
+    @State private var disableChoice1 = false
+    @State private var disableChoice2 = false
     var body: some View{
         NavigationView{
             VStack{
                 CustomTop(characterName: characterName, characterPic: characterPic, choicePath: choicePath)
                 CustomTitleText(text: titleText)
-                CustomText(text: bodyText)
-                    .padding()
-                CustomText(text: choicePath)
+                ScrollView{
+                    CustomText(text: bodyText)
+                }
+                .padding()
                 HStack{
                     Button(choice1){
-                        switch choicePath {
-                        case "":
-                            pathA1()
-                        case "1":
-                            pathA1B1()
-                        case "2":
-                            pathA2B1()
-                        default:
-                            defaultText()
-                        }
                         choicePath += "1"
                         screenCounter += 1
+                        checkText()
                     }
+                    .disabled(screenCounter == 3 || disableChoice1)
                     .padding()
                     Button(choice2){
-                        switch choicePath {
-                        case "":
-                            pathA2()
-                        case "1":
-                            pathA1B2()
-                        case "2":
-                            pathA2B2()
-                        default:
-                            defaultText()
-                        }
                         choicePath += "2"
                         screenCounter += 1
+                        checkText()
                     }
+                    .disabled(screenCounter == 3 || disableChoice2)
                     .padding()
                 }
-                Button("Back"){
-                    if (screenCounter > 0){
+                .padding()
+                HStack{
+                    Button("Back"){
                         screenCounter -= 1
                         choicePath.removeLast()
-                        switch choicePath{
-                        case "1":
-                            pathA1()
-                        case "2":
-                            pathA2()
-                        case "11":
-                            pathA1B1()
-                        case "12":
-                            pathA1B2()
-                        case "21":
-                            pathA2B1()
-                        case "22":
-                            pathA2B2()
-                        default:
-                            defaultText()
-                            
-                        }
+                        checkText()
                     }
+                    .padding(30)
+                    .disabled(screenCounter == 0)
+                    Button("Reset"){
+                        screenCounter = 0
+                        choicePath = ""
+                        checkText()
+                    }
+                    .padding(30)
                 }
                 Spacer()
             }
         }
+        .onAppear{
+            defaultText()
+        }
         .preferredColorScheme(.dark)
     }
-    func pathA1() {
-        titleText = "Path A1"
-        bodyText = "Path 0"
-        choice1 = "choose me"
-        choice2 = "no choose me"
-    }
-    func pathA2() {
-        titleText = "Path A2"
-        bodyText = "Path 0"
-        choice1 = "choice 1"
-        choice2 = "choice 2"
-    }
-    func pathA1B1(){
-        titleText = "Path A1B1"
-        bodyText = "Path 1"
-        choice2 = "Choice 2"
-        choice1 = "Choice 1"
-    }
-    func pathA1B2(){
-        titleText = "Path A1B2"
-        bodyText = "Path 2"
-        choice2 = "Choice 2"
-        choice1 = "Choice 1"
-    }
-    func pathA2B1(){
-        titleText = "Path A2B1"
-        bodyText = "Path 1"
-        choice2 = "Choice 2"
-        choice1 = "Choice 1"
-    }
-    func pathA2B2(){
-        titleText = "Path A2B2"
-        bodyText = "Path 2"
-        choice2 = "Choice 2"
-        choice1 = "Choice 1"
+    func checkText(){
+        switch choicePath{
+        case "1":
+            path1()
+        case "2":
+            path2()
+        case "11":
+            path11()
+        case "12":
+            path12()
+        case "21":
+            path21()
+        case "22":
+            path22()
+        case "111":
+            path111()
+        case "121":
+            path121()
+        case "211":
+            path211()
+        case "221":
+            path221()
+        case "112":
+            path112()
+        case "122":
+            path122()
+        case "212":
+            path212()
+        case "222":
+            path222()
+        default:
+            defaultText()
+        }
     }
     func defaultText() {
-        titleText = "Title"
+        titleText = "This is a story"
+        bodyText = "A great story even. Some might say the best of stories. They would be correct. This is the best of stories. In the world."
+        choice2 = "Choice 2"
+        choice1 = "Choice 1"
+        disableChoice1 = false
+        disableChoice2 = false
+    }
+    func path1() {
+        titleText = "Path 1"
+        bodyText = "Body"
+        choice1 = "choose me"
+        choice2 = "no choose me"
+        disableChoice1 = false
+        disableChoice2 = false
+    }
+    func path2() {
+        titleText = "Path 2"
+        bodyText = "Body"
+        choice1 = "choice 1"
+        choice2 = "choice 2"
+        disableChoice1 = false
+        disableChoice2 = false
+    }
+    func path11(){
+        titleText = "Path 11"
         bodyText = "Body"
         choice2 = "Choice 2"
         choice1 = "Choice 1"
+        disableChoice1 = false
+        disableChoice2 = false
+    }
+    func path12(){
+        titleText = "Path 12"
+        bodyText = "Body"
+        choice2 = "Choice 2"
+        choice1 = "Choice 1"
+        disableChoice1 = false
+        disableChoice2 = false
+    }
+    func path21(){
+        titleText = "Path 21"
+        bodyText = "Body"
+        choice2 = "Choice 2"
+        choice1 = "Choice 1"
+        disableChoice1 = false
+        disableChoice2 = false
+    }
+    func path22(){
+        titleText = "Path 22"
+        bodyText = "Body"
+        choice2 = "Choice 2"
+        choice1 = "Choice 1"
+        disableChoice1 = false
+        disableChoice2 = false
+    }
+    func path111(){
+        titleText = "Path 111"
+        bodyText = "Body"
+        choice2 = "Choice 2"
+        choice1 = "Choice 1"
+        disableChoice1 = false
+        disableChoice2 = false
+    }
+    func path121(){
+        titleText = "Path 121"
+        bodyText = "Body"
+        choice2 = "Choice 2"
+        choice1 = "Choice 1"
+        disableChoice1 = false
+        disableChoice2 = false
+    }
+    func path211(){
+        titleText = "Path 211"
+        bodyText = "Body"
+        choice2 = "Choice 2"
+        choice1 = "Choice 1"
+        disableChoice1 = false
+        disableChoice2 = false
+    }
+    func path221(){
+        titleText = "Path 221"
+        bodyText = "Body"
+        choice2 = "Choice 2"
+        choice1 = "Choice 1"
+        disableChoice1 = false
+        disableChoice2 = false
+    }
+    func path112(){
+        titleText = "Path 112"
+        bodyText = "Body"
+        choice2 = "Choice 2"
+        choice1 = "Choice 1"
+        disableChoice1 = false
+        disableChoice2 = false
+    }
+    func path122(){
+        titleText = "Path 122"
+        bodyText = "Body"
+        choice2 = "Choice 2"
+        choice1 = "Choice 1"
+        disableChoice1 = false
+        disableChoice2 = false
+    }
+    func path212(){
+        titleText = "Path 212"
+        bodyText = "Body"
+        choice2 = "Choice 2"
+        choice1 = "Choice 1"
+        disableChoice1 = false
+        disableChoice2 = false
+    }
+    func path222(){
+        titleText = "Path 222"
+        bodyText = "Body"
+        choice2 = "Choice 2"
+        choice1 = "Choice 1"
+        disableChoice1 = false
+        disableChoice2 = false
     }
 }
 

@@ -15,15 +15,14 @@ struct ContentView: View {
             VStack{
                 CustomTitleText(text: "The Hunt for the Irish Disco King and his Merciless Gnome Squadron")
                 CustomTextField(placeholder: "Enter in your name", variable: $characterName)
+                    .padding()
                 CustomText(text: "Click to change your character")
                 Image(charPic)
                     .resizable()
                     .frame(width: 125, height: 125, alignment: .center)
                     .aspectRatio(contentMode: .fit)
                     .cornerRadius(30)
-                    
                     .onTapGesture {
-                        
                         if (charPic == "Zebra"){
                             charPic = "Cat"
                         }else if(charPic == "Cat"){
@@ -31,19 +30,20 @@ struct ContentView: View {
                         }else if(charPic == "Dog"){
                             charPic = "Zebra"
                         }
-                        
                     }
+                if (characterName == ""){
+                    CustomText(text: "Hello Username!")
+                        .padding()
+                }else{
+                    CustomText(text: "Hello \(characterName)!")
+                        .padding()
+                }
+                Spacer()
                 NavigationLink("Play Game", destination: SwiftUIViewGame(characterName: characterName, characterPic: charPic).navigationBarBackButtonHidden(true))
                     .disabled(characterName == "")
                     .font(.title2)
-                    .padding()
+                    .padding(50)
                 
-                if (characterName == ""){
-                    CustomText(text: "Hello Username!")
-                }else{
-                    CustomText(text: "Hello \(characterName)!")
-                }
-                Spacer()
             }
         }
         .preferredColorScheme(.dark)
@@ -81,7 +81,7 @@ struct CustomTextField: View {
 struct CustomTop: View{
     let characterName : String
     let characterPic : String
-    let choicePath : Int
+    let choicePath : String
     var body: some View{
         HStack{
             CustomText(text: "Path: \(choicePath)")
