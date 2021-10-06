@@ -22,8 +22,21 @@ struct SwiftUIViewGame: View {
     var body: some View{
         NavigationView{
             VStack{
-                CustomTop(characterName: characterName, characterPic: characterPic, choicePath: choicePath)
+                HStack{
+                    NavigationLink("Achievements", destination: SwiftUIViewAchievements())
+                        .padding()
+                    Spacer()
+                    CustomText(text: "\(characterName)")
+                        .frame(height: 50, alignment: .topLeading)
+                    Image(characterPic)
+                        .resizable()
+                        .frame(width: 50, height: 50, alignment: .topTrailing)
+                        .aspectRatio(contentMode: .fit)
+                        .cornerRadius(15)
+                        .padding()
+                }
                 CustomTitleText(text: titleText)
+                    .padding()
                 ScrollView{
                     CustomText(text: bodyText)
                 }
@@ -62,6 +75,8 @@ struct SwiftUIViewGame: View {
                 }
                 Spacer()
             }
+            .navigationBarTitle("")
+            .navigationBarHidden(true)
         }
         .onAppear{
             defaultText()
@@ -104,12 +119,13 @@ struct SwiftUIViewGame: View {
     }
     func defaultText() {
         titleText = "This is a story"
-        bodyText = "A great story even. Some might say the best of stories. They would be correct. This is the best of stories. In the world."
+        bodyText = "A great story even. Some might say the best of stories. They would be correct. This is the best of stories. In the world. A great story even. Some might say the best of stories. They would be correct. This is the best of stories. In the world. A great story even. Some might say the best of stories. They would be correct. This is the best of stories. In the world. A great story even. Some might say the best of stories. They would be correct. This is the best of stories. In the world. A great story even. Some might say the best of stories. They would be correct. This is the best of stories. In the world. A great story even. Some might say the best of stories. They would be correct. This is the best of stories. In the world. A great story even. Some might say the best of stories. They would be correct. This is the best of stories. In the world. A great story even. Some might say the best of stories. They would be correct. This is the best of stories. In the world. A great story even. Some might say the best of stories. They would be correct. This is the best of stories. In the world. A great story even. Some might say the best of stories. They would be correct. This is the best of stories. In the world. A great story even. Some might say the best of stories. They would be correct. This is the best of stories. In the world. A great story even. Some might say the best of stories. They would be correct. This is the best of stories. In the world. A great story even. Some might say the best of stories. They would be correct. This is the best of stories. In the world. A great story even. Some might say the best of stories. They would be correct. This is the best of stories. In the world. A great story even. Some might say the best of stories. They would be correct. This is the best of stories. In the world. A great story even. Some might say the best of stories. They would be correct. This is the best of stories. In the world. A great story even. Some might say the best of stories. They would be correct. This is the best of stories. In the world. A great story even. Some might say the best of stories. They would be correct. This is the best of stories. In the world. A great story even. Some might say the best of stories. They would be correct. This is the best of stories. In the world. A great story even. Some might say the best of stories. They would be correct. This is the best of stories. In the world. A great story even. Some might say the best of stories. They would be correct. This is the best of stories. In the world. A great story even. Some might say the best of stories. They would be correct. This is the best of stories. In the world. A great story even. Some might say the best of stories. They would be correct. This is the best of stories. In the world. A great story even. Some might say the best of stories. They would be correct. This is the best of stories. In the world. A great story even. Some might say the best of stories. They would be correct. This is the best of stories. In the world. A great story even. Some might say the best of stories. They would be correct. This is the best of stories. In the world. A great story even. Some might say the best of stories. They would be correct. This is the best of stories. In the world. A great story even. Some might say the best of stories. They would be correct. This is the best of stories. In the world. A great story even. Some might say the best of stories. They would be correct. This is the best of stories. In the world. A great story even. Some might say the best of stories. They would be correct. This is the best of stories. In the world. A great story even. Some might say the best of stories. They would be correct. This is the best of stories. In the world. A great story even. Some might say the best of stories. They would be correct. This is the best of stories. In the world. "
         choice2 = "Choice 2"
         choice1 = "Choice 1"
         disableChoice1 = false
         disableChoice2 = false
     }
+    
     func path1() {
         titleText = "Path 1"
         bodyText = "Body"
@@ -118,6 +134,7 @@ struct SwiftUIViewGame: View {
         disableChoice1 = false
         disableChoice2 = false
     }
+    
     func path2() {
         titleText = "Path 2"
         bodyText = "Body"
@@ -126,6 +143,7 @@ struct SwiftUIViewGame: View {
         disableChoice1 = false
         disableChoice2 = false
     }
+    
     func path11(){
         titleText = "Path 11"
         bodyText = "Body"
@@ -134,6 +152,7 @@ struct SwiftUIViewGame: View {
         disableChoice1 = false
         disableChoice2 = false
     }
+    
     func path12(){
         titleText = "Path 12"
         bodyText = "Body"
@@ -142,6 +161,7 @@ struct SwiftUIViewGame: View {
         disableChoice1 = false
         disableChoice2 = false
     }
+    
     func path21(){
         titleText = "Path 21"
         bodyText = "Body"
@@ -150,6 +170,7 @@ struct SwiftUIViewGame: View {
         disableChoice1 = false
         disableChoice2 = false
     }
+    
     func path22(){
         titleText = "Path 22"
         bodyText = "Body"
@@ -158,6 +179,7 @@ struct SwiftUIViewGame: View {
         disableChoice1 = false
         disableChoice2 = false
     }
+    
     func path111(){
         titleText = "Path 111"
         bodyText = "Body"
@@ -166,6 +188,7 @@ struct SwiftUIViewGame: View {
         disableChoice1 = false
         disableChoice2 = false
     }
+    
     func path121(){
         titleText = "Path 121"
         bodyText = "Body"
@@ -174,6 +197,7 @@ struct SwiftUIViewGame: View {
         disableChoice1 = false
         disableChoice2 = false
     }
+    
     func path211(){
         titleText = "Path 211"
         bodyText = "Body"
@@ -182,6 +206,7 @@ struct SwiftUIViewGame: View {
         disableChoice1 = false
         disableChoice2 = false
     }
+    
     func path221(){
         titleText = "Path 221"
         bodyText = "Body"
@@ -190,6 +215,7 @@ struct SwiftUIViewGame: View {
         disableChoice1 = false
         disableChoice2 = false
     }
+    
     func path112(){
         titleText = "Path 112"
         bodyText = "Body"
@@ -198,6 +224,7 @@ struct SwiftUIViewGame: View {
         disableChoice1 = false
         disableChoice2 = false
     }
+    
     func path122(){
         titleText = "Path 122"
         bodyText = "Body"
@@ -206,6 +233,7 @@ struct SwiftUIViewGame: View {
         disableChoice1 = false
         disableChoice2 = false
     }
+    
     func path212(){
         titleText = "Path 212"
         bodyText = "Body"
@@ -214,6 +242,7 @@ struct SwiftUIViewGame: View {
         disableChoice1 = false
         disableChoice2 = false
     }
+    
     func path222(){
         titleText = "Path 222"
         bodyText = "Body"
@@ -229,3 +258,4 @@ struct SwiftUIViewGame_Previews: PreviewProvider {
         SwiftUIViewGame(characterName: "Billy Bob", characterPic: "Zebra")
     }
 }
+

@@ -39,11 +39,10 @@ struct ContentView: View {
                         .padding()
                 }
                 Spacer()
-                NavigationLink("Play Game", destination: SwiftUIViewGame(characterName: characterName, characterPic: charPic).navigationBarBackButtonHidden(true))
+                NavigationLink("Play Game", destination: SwiftUIViewGame(characterName: characterName, characterPic: charPic))
                     .disabled(characterName == "")
                     .font(.title2)
                     .padding(50)
-                
             }
         }
         .preferredColorScheme(.dark)
@@ -76,24 +75,6 @@ struct CustomTextField: View {
             .frame(width: 200, height: 30, alignment: .center)
             .font(.body)
             .padding()
-    }
-}
-struct CustomTop: View{
-    let characterName : String
-    let characterPic : String
-    let choicePath : String
-    var body: some View{
-        HStack{
-            CustomText(text: "Path: \(choicePath)")
-            Spacer()
-            CustomText(text: characterName)
-                .frame(height: 50, alignment: .topLeading)
-            Image(characterPic)
-                .resizable()
-                .frame(width: 50, height: 50, alignment: .topTrailing)
-                .aspectRatio(contentMode: .fit)
-                .cornerRadius(15)
-        }
     }
 }
 struct ContentView_Previews: PreviewProvider {
