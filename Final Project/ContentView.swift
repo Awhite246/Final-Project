@@ -10,25 +10,39 @@ import SwiftUI
 struct ContentView: View {
     @State private var characterName = ""
     @State private var charPic = "Zebra"
+    @State private var rotation = 0.0
+    @State private var showGame = false
     var body: some View {
-        NavigationView{
-            VStack{
+        VStack{
+            if showGame {
+                SwiftUIViewGame(characterName: characterName, characterPic: charPic)
+            } else {
                 CustomTitleText(text: "The Hunt for the Irish Disco King and his Merciless Gnome Squadron")
-                CustomTextField(placeholder: "Enter in your name", variable: $characterName)
+                    .padding(.top, 100)
+                CustomTextField(placeholder: "What's your name", variable: $characterName)
                     .padding()
-                CustomText(text: "Click to change your character")
+                CustomText(text: "Choose your character")
                 Image(charPic)
                     .resizable()
                     .frame(width: 125, height: 125, alignment: .center)
                     .aspectRatio(contentMode: .fit)
                     .cornerRadius(30)
+                    .rotation3DEffect(
+                        .degrees(rotation),
+                        axis: (x: 0, y: 1, z: 0)
+                    )
                     .onTapGesture {
-                        if (charPic == "Zebra"){
-                            charPic = "Cat"
-                        }else if(charPic == "Cat"){
-                            charPic = "Dog"
-                        }else if(charPic == "Dog"){
-                            charPic = "Zebra"
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.31){
+                            if (charPic == "Zebra"){
+                                charPic = "Cat"
+                            }else if(charPic == "Cat"){
+                                charPic = "Dog"
+                            }else if(charPic == "Dog"){
+                                charPic = "Zebra"
+                            }
+                        }
+                        withAnimation(.interpolatingSpring(stiffness: 10, damping: 6)) {
+                            rotation += 360
                         }
                     }
                 if (characterName == ""){
@@ -39,10 +53,12 @@ struct ContentView: View {
                         .padding()
                 }
                 Spacer()
-                NavigationLink("Play Game", destination: SwiftUIViewGame(characterName: characterName, characterPic: charPic))
-                    .disabled(characterName == "")
-                    .font(.title2)
-                    .padding(50)
+                Button ("Play Game") {
+                    showGame.toggle()
+                }
+                .disabled(characterName == "")
+                .font(.title2)
+                .padding(50)
             }
         }
         .preferredColorScheme(.dark)
