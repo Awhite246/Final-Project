@@ -29,9 +29,14 @@ struct SwiftUIViewGame: View {
     @State private var trophy8 = false
     @State private var triggerTrophy = false
     @State private var rotation = 0.0
+    @State private var finishedPaths = 0
+    @State private var goodEndings = 0
+    @State private var badEndings = 0
+    @State private var finishedPathsList = [String]()
     var body: some View {
         NavigationView {
             VStack{
+                //the top bit of screen
                 HStack{
                     NavigationLink("Achievements", destination: SwiftUIViewAchievements(trophy: HasAchievements(trophy1: trophy1, trophy2: trophy2, trophy3: trophy3, trophy4: trophy4, trophy5: trophy5, trophy6: trophy6, trophy7: trophy7, trophy8: trophy8)))
                         .padding()
@@ -55,6 +60,16 @@ struct SwiftUIViewGame: View {
                                 triggerTrophy = false
                             }
                         })
+                        .onTapGesture {
+                            if !trophy8 {
+                                triggerTrophy = true
+                            } else {
+                                withAnimation(.interpolatingSpring(stiffness: 10, damping: 6)) {
+                                    rotation += 720
+                                }
+                            }
+                            trophy8 = true
+                        }
                         .padding()
                 }
                 CustomTitleText(text: titleText)
@@ -71,7 +86,7 @@ struct SwiftUIViewGame: View {
                         checkText()
                         checkAchievement()
                     }
-                    .disabled(screenCounter == 3 || disableChoice1)
+                    .disabled(disableChoice1)
                     .padding()
                     Button(choice2){
                         choicePath += "2"
@@ -79,7 +94,7 @@ struct SwiftUIViewGame: View {
                         checkText()
                         checkAchievement()
                     }
-                    .disabled(screenCounter == 3 || disableChoice2)
+                    .disabled(disableChoice2)
                     .padding()
                 }
                 .padding()
@@ -130,7 +145,9 @@ struct SwiftUIViewGame: View {
         case "211":
             path211()
         case "221":
+            //ending
             path221()
+            addFinishedPath(string: choicePath, goodEnding: false)
         case "112":
             path112()
         case "122":
@@ -139,16 +156,74 @@ struct SwiftUIViewGame: View {
             path212()
         case "222":
             path222()
+        case "2221":
+            path2221()
+        case "2222":
+            path2222()
         default:
             defaultText()
         }
     }
+    func addFinishedPath (string : String, goodEnding : Bool) {
+        if !finishedPathsList.contains(string) {
+            finishedPathsList.append(string)
+            if goodEnding {
+                goodEndings += 1
+            } else {
+                badEndings += 1
+            }
+        }
+        finishedPaths += 1
+    }
     func checkAchievement(){
-        if screenCounter != 0{
+        //checks to see if the first choice was selected
+        if screenCounter != 0 {
             if !trophy1 {
                 triggerTrophy = true
             }
             trophy1 = true
+        }
+        //checks to see if the player got there first bad ending
+        if badEndings != 0 {
+            if !trophy2 {
+                triggerTrophy = true
+            }
+            trophy2 = true
+        }
+        //checks if player got atleast 10 bad endings
+        if badEndings == 10 {
+            if !trophy3 {
+                triggerTrophy = true
+            }
+            trophy3 = true
+        }
+        //checks if the play got every achievment (non inclusive)
+        if (trophy1 && trophy2 && trophy3 && trophy5 && trophy6 && trophy7 && trophy8) {
+            if !trophy4 {
+                triggerTrophy = true
+            }
+            trophy4 = true
+        }
+        //checks to see if player got first good ending
+        if goodEndings != 0 {
+            if !trophy5 {
+                triggerTrophy = true
+            }
+            trophy5 = true
+        }
+        //checks if player has gone through same story path
+        if finishedPathsList.count < finishedPaths {
+            if !trophy6 {
+                triggerTrophy = true
+            }
+            trophy6 = true
+        }
+        // checks if all the paths have been complete
+        if finishedPathsList.count == 16 {
+            if !trophy7 {
+                triggerTrophy = true
+            }
+            trophy7 = true
         }
     }
     func defaultText(){
@@ -279,6 +354,22 @@ struct SwiftUIViewGame: View {
     
     func path222(){
         titleText = "Lets Go Back"
+        bodyText = "You make your way back to where you previously stood. Looking around you slowly make your way around the cave, cautiously searching every corner for your machete. Placing your torch on the ground, you bend down to start picking up a huge boulder when you see a glint in the corner of your eye. Quickly whipping around you spy a shiny object in the corner of the cave, barely illuminated by your torch. As you make your way closer, you are able to make out an intricately carved wooden chest with a huge red jewel in the place of a lock. You pull out your map to see if you truly stumbled upon the fabled crown, but to your dismay, the map leads your father into the cave. You ponder your choices, still, trust your map or break the chest and claim what is yours. The map seems to be leading you in circles, and you are starting to doubt its validity, but who put the legendary crown in a chest all by its lonesome."
+        choice2 = "Break the chest"
+        choice1 = "Keep looking"
+        disableChoice1 = false
+        disableChoice2 = false
+    }
+    func path2221(){
+        titleText = "Path 2221"
+        bodyText = "Body"
+        choice2 = "Choice 2"
+        choice1 = "Choice 1"
+        disableChoice1 = false
+        disableChoice2 = false
+    }
+    func path2222(){
+        titleText = "Path 2222"
         bodyText = "Body"
         choice2 = "Choice 2"
         choice1 = "Choice 1"
