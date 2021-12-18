@@ -14,10 +14,11 @@ struct ContentView: View {
     @State private var showGame = false
     var body: some View {
         VStack{
+            //since there is no back button needed, naviagtion view is unecessary and naviagtion view makes annying header space that you cant get rid of, so no naviagtion view
             if showGame {
                 SwiftUIViewGame(characterName: characterName, characterPic: charPic)
             } else {
-                CustomTitleText(text: "The Hunt for the Irish Disco King and his Merciless Gnome Squadron")
+                CustomTitleText(text: "The Hunt for the Irish Disco King and his Crooked Crown")
                     .padding(.top, 100)
                 CustomTextField(placeholder: "What's your name", variable: $characterName)
                     .padding()
@@ -31,7 +32,9 @@ struct ContentView: View {
                         .degrees(rotation),
                         axis: (x: 0, y: 1, z: 0)
                     )
+                    //cool spins and stuff
                     .onTapGesture {
+                        //delay timer so you dont see when it switches the characeter picture
                         DispatchQueue.main.asyncAfter(deadline: .now() + 0.31){
                             if (charPic == "Zebra"){
                                 charPic = "Cat"
@@ -56,6 +59,7 @@ struct ContentView: View {
                 Button ("Play Game") {
                     showGame.toggle()
                 }
+                //makes sure the user imputed a name before letting them start playing
                 .disabled(characterName == "")
                 .font(.title2)
                 .padding(50)
@@ -64,6 +68,8 @@ struct ContentView: View {
         .preferredColorScheme(.dark)
     }
 }
+
+//since the text code is reused alot so there is struct for it.
 struct CustomText: View{
     let text:String
     var body:some View{

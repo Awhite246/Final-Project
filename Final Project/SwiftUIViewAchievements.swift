@@ -10,25 +10,23 @@ import SwiftUI
 struct SwiftUIViewAchievements: View {
     let trophy : HasAchievements
     var body: some View {
-        NavigationView{
-            VStack{
-                ScrollView{
-                    Group{
-                        achievement(imageName: "trophy 1", achievementName: "Adventure Awaits", achievementDescription: "Start your first story path", hasAchievement: trophy.trophy1)
-                        achievement(imageName: "trophy 1", achievementName: "Untimely End", achievementDescription: "Suffer your first death", hasAchievement: trophy.trophy2)
-                        achievement(imageName: "trophy 1", achievementName: "Accident Prone", achievementDescription: "Get 10 bad endings", hasAchievement: trophy.trophy3)
-                        achievement(imageName: "trophy 1", achievementName: "Trophy Collecter", achievementDescription: "Get every achievement", hasAchievement: trophy.trophy4)
-                    }
-                    Group{
-                        achievement(imageName: "trophy 1", achievementName: "Bountiful Treasure", achievementDescription: "Get your first good ending", hasAchievement: trophy.trophy5)
-                        achievement(imageName: "trophy 1", achievementName: "Déjà Vu", achievementDescription: "Replay the same story path", hasAchievement: trophy.trophy6)
-                        achievement(imageName: "trophy 1", achievementName: "Grand-Adventurer", achievementDescription: "Complete every story path", hasAchievement: trophy.trophy7)
-                        achievement(imageName: "trophy 1", achievementName: "Hidden in Plain Sight", achievementDescription: "", hasAchievement: trophy.trophy8)
-                    }
-                    
+        VStack{
+            //scroll view so everything can fit confortably
+            ScrollView{
+                Group{
+                    achievement(achievementName: "Adventure Awaits", achievementDescription: "Start your first story path", hasAchievement: trophy.trophy1)
+                    achievement(achievementName: "Untimely End", achievementDescription: "Suffer your first death", hasAchievement: trophy.trophy2)
+                    achievement(achievementName: "Bountiful Treasure", achievementDescription: "Get your first good ending", hasAchievement: trophy.trophy5)
+                    achievement(achievementName: "Accident Prone", achievementDescription: "Get 10 bad endings", hasAchievement: trophy.trophy3)
                 }
-                Spacer()
+                Group{
+                    achievement(achievementName: "Grand-Adventurer", achievementDescription: "Complete every story path", hasAchievement: trophy.trophy7)
+                    achievement(achievementName: "Déjà Vu", achievementDescription: "Replay the same story path", hasAchievement: trophy.trophy6)
+                    achievement(achievementName: "Hidden in Plain Sight", achievementDescription: "I wonder how to get this one", hasAchievement: trophy.trophy8)
+                    achievement(achievementName: "Trophy Collecter", achievementDescription: "Get every achievement", hasAchievement: trophy.trophy4)
+                }
             }
+            Spacer()
         }
         .navigationBarTitle("Achievements")
         .navigationBarTitleDisplayMode(.inline)
@@ -36,8 +34,9 @@ struct SwiftUIViewAchievements: View {
         .preferredColorScheme(.dark)
     }
 }
-struct achievement : View{
-    let imageName : String
+
+//because each achievment is very simlar in code, and function didn't work becuase it uses views, struct is necessary
+struct achievement : View {
     let achievementName : String
     let achievementDescription : String
     let hasAchievement : Bool
@@ -45,7 +44,7 @@ struct achievement : View{
     @State private var clicked = true
     var body: some View{
         HStack{
-            Image(imageName)
+            Image("trophy 1")
                 .resizable()
                 .frame(width: 75, height: 75, alignment: .leading)
                 .aspectRatio(contentMode: .fit)
@@ -62,11 +61,12 @@ struct achievement : View{
                 .padding(35)
             
         }
+        //switches the description and title of achievement based on if it was clicked
         .onTapGesture {
-            if clicked && achievementDescription != ""{
+            if clicked && achievementDescription != "" {
                 displayText = achievementDescription
                 clicked = false
-            }else{
+            } else {
                 displayText = achievementName
                 clicked = true
             }

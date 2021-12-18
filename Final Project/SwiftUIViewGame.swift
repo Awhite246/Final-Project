@@ -36,7 +36,7 @@ struct SwiftUIViewGame: View {
     var body: some View {
         NavigationView {
             VStack{
-                //the top bit of screen
+                //the top bit of screen with username and pic
                 HStack{
                     NavigationLink("Achievements", destination: SwiftUIViewAchievements(trophy: HasAchievements(trophy1: trophy1, trophy2: trophy2, trophy3: trophy3, trophy4: trophy4, trophy5: trophy5, trophy6: trophy6, trophy7: trophy7, trophy8: trophy8)))
                         .padding()
@@ -52,6 +52,7 @@ struct SwiftUIViewGame: View {
                             .degrees(rotation),
                             axis: (x: 0, y: 1, z: 0)
                         )
+                        //triggers when you get a trophy, and does fun spinny stuffs
                         .onChange(of: triggerTrophy, perform: { value in
                             withAnimation(.interpolatingSpring(stiffness: 10, damping: 6)) {
                                 rotation += triggerTrophy ? 720 : 0
@@ -60,10 +61,12 @@ struct SwiftUIViewGame: View {
                                 triggerTrophy = false
                             }
                         })
+                        //for getting 8th achievment
                         .onTapGesture {
                             if !trophy8 {
                                 triggerTrophy = true
                             } else {
+                                //spins it without showing trophy because its fun to spin things
                                 withAnimation(.interpolatingSpring(stiffness: 10, damping: 6)) {
                                     rotation += 720
                                 }
@@ -74,11 +77,13 @@ struct SwiftUIViewGame: View {
                 }
                 CustomTitleText(text: titleText)
                     .padding()
+                //makes the long story text part scrollable so you can read the whole thing
                 ScrollView{
                     CustomText(text: bodyText)
                 }
                 .padding()
                 Spacer()
+                //left and right choice buttons
                 HStack{
                     Button(choice1){
                         choicePath += "1"
@@ -98,6 +103,7 @@ struct SwiftUIViewGame: View {
                     .padding()
                 }
                 .padding()
+                //reset and go back buttons
                 HStack{
                     Button("Back"){
                         screenCounter -= 1
@@ -117,6 +123,7 @@ struct SwiftUIViewGame: View {
                 }
             }
             .navigationBarTitle("")
+            //hides the navigation bar going from the home menu to game, becuase i dont want you going back
             .navigationBarHidden(true)
         }
         .onAppear{
@@ -124,6 +131,7 @@ struct SwiftUIViewGame: View {
         }
         .preferredColorScheme(.dark)
     }
+    //takes the choicePath string and finds the correct story bit that goes with it
     func checkText(){
         switch choicePath{
         case "1":
@@ -131,39 +139,45 @@ struct SwiftUIViewGame: View {
         case "2":
             path2()
         case "11":
+            //bad ending
             path11()
+            addFinishedPath(string: choicePath, goodEnding: false)
         case "12":
+            //bad ending
             path12()
+            addFinishedPath(string: choicePath, goodEnding: false)
         case "21":
+            //bad ending
             path21()
+            addFinishedPath(string: choicePath, goodEnding: false)
         case "22":
             path22()
-        case "111":
-            path111()
-        case "121":
-            path121()
-        case "211":
-            path211()
         case "221":
-            //ending
+            //bad ending
             path221()
             addFinishedPath(string: choicePath, goodEnding: false)
-        case "112":
-            path112()
-        case "122":
-            path122()
-        case "212":
-            path212()
         case "222":
             path222()
         case "2221":
             path2221()
         case "2222":
+            //bad ending
             path2222()
+            addFinishedPath(string: choicePath, goodEnding: false)
+        case "22211":
+            //good ending
+            path22211()
+            addFinishedPath(string: choicePath, goodEnding: true)
+        case "22212":
+            //bad ending
+            path22212()
+            addFinishedPath(string: choicePath, goodEnding: false)
         default:
             defaultText()
         }
     }
+    
+    //use for doing achievemnet checking, since same code will be reused alot
     func addFinishedPath (string : String, goodEnding : Bool) {
         if !finishedPathsList.contains(string) {
             finishedPathsList.append(string)
@@ -175,6 +189,7 @@ struct SwiftUIViewGame: View {
         }
         finishedPaths += 1
     }
+    
     func checkAchievement(){
         //checks to see if the first choice was selected
         if screenCounter != 0 {
@@ -190,8 +205,8 @@ struct SwiftUIViewGame: View {
             }
             trophy2 = true
         }
-        //checks if player got atleast 10 bad endings
-        if badEndings == 10 {
+        //checks if player got atleast 3 bad endings
+        if badEndings == 3 {
             if !trophy3 {
                 triggerTrophy = true
             }
@@ -204,7 +219,7 @@ struct SwiftUIViewGame: View {
             }
             trophy4 = true
         }
-        //checks to see if player got first good ending
+        //checks to see if player got good ending
         if goodEndings != 0 {
             if !trophy5 {
                 triggerTrophy = true
@@ -219,13 +234,15 @@ struct SwiftUIViewGame: View {
             trophy6 = true
         }
         // checks if all the paths have been complete
-        if finishedPathsList.count == 16 {
+        if finishedPathsList.count == 7 {
             if !trophy7 {
                 triggerTrophy = true
             }
             trophy7 = true
         }
     }
+    
+    //While the functions are technicaly unecisary, it helps organize code so it's easier to edit the large text, and keeps them from breaking up code.
     func defaultText(){
         titleText = "Legendary Treasure"
         bodyText = "You are an adventurer looking for the most legendary treasure: the crown of the legendary Irish Disco King. You found the fabled lost chest with an ancient map leading you to where you are standing right now, in front of a large stone spire towering way above the largest mountain. The spire was outfitted with a gold garnishing and a beautiful mahogany door. Colorful glass windows line the side of the walls leading up to the very top where a large copper bell stood. As you glance to the side you can make out a dark cave behind the trees and shrubs surrounding the stone pillar. The map appears to lead past the tower and into an impossibly dark cave as if it sucked in the light around it. It seems unthinkable that the treasure doesn’t lie within the stone tower, but the map hasn’t failed you so far. The sound of bugs grows louder as the sun begins its slow descent downward. If you want to get back to safety before nightfall then you need to choose where to go now. You hope to not find out what hides in the jungle when night falls."
@@ -237,9 +254,9 @@ struct SwiftUIViewGame: View {
     
     func path1(){
         titleText = "A Beautiful Tower"
-        bodyText = "Body"
-        choice1 = "choose me"
-        choice2 = "no choose me"
+        bodyText = "Glancing at the stone tower, you notice that light seemed to emanate off its walls. Approaching the door, you are able to make out three letters engraved on the door. “I D K”. Not knowing what they could stand for, you grab the handle and push the door open and take a step inside. As the door closes behind you, you make out a faint ringing coming from above you. The inside of the tower seems to be bigger than the outside. The expansive room is outfitted with a large red rug, gold chainlears, and many priceless relics on the wall. Many bejeweled weapons hung from the walls, while a set of armor sat as a centerpiece in the room. On the left of the armor lay a staircase going up, while on the right a staircase going down. Both seem like equally good options, but you would much rather be going up than down."
+        choice1 = "Go up"
+        choice2 = "Go down"
         disableChoice1 = false
         disableChoice2 = false
     }
@@ -254,30 +271,30 @@ struct SwiftUIViewGame: View {
     }
     
     func path11(){
-        titleText = "Path 11"
-        bodyText = "Body"
-        choice2 = "Choice 2"
-        choice1 = "Choice 1"
-        disableChoice1 = false
-        disableChoice2 = false
+        titleText = "Going Up"
+        bodyText = "You go up the stairs and trip and fall down."
+        choice2 = "DIED"
+        choice1 = "YOU"
+        disableChoice1 = true
+        disableChoice2 = true
     }
     
     func path12(){
-        titleText = "Path 12"
-        bodyText = "Body"
-        choice2 = "Choice 2"
-        choice1 = "Choice 1"
-        disableChoice1 = false
-        disableChoice2 = false
+        titleText = "Going Down"
+        bodyText = "You go down the stairs and trip and fall down"
+        choice2 = "DIED"
+        choice1 = "YOU"
+        disableChoice1 = true
+        disableChoice2 = true
     }
     
     func path21(){
         titleText = "You look for your machete"
-        bodyText = "Body"
-        choice2 = "Choice 2"
-        choice1 = "Choice 1"
-        disableChoice1 = false
-        disableChoice2 = false
+        bodyText = "You trace your steps to where you thought you lost your machete. Looking around you slowly make your way around the cave, cautiously searching every corner, the darkness making it a long grueling task. Placing your torch on the ground, you bend down to start moving a huge boulder when you see a glint in the corner of your eye. Quickly whipping around you spy a shiny object in the corner of the cave, barely illuminated by your torch. As you make your way closer, you can make out a beautiful fencing sword engraved with gems and gold. You bend down to grab the sword, but it doesn’t budge. Angry, you kick it and with a sudden white light, you are thrown to the back wall of the cave. You hear a rumble, and looking up and a crack starts forming on the roof. You try with all your might to get out of the way, but your legs don’t budge. Taking one last look upwards, the last thing you see is a stalactite falling down right for your head. "
+        choice2 = "DIED"
+        choice1 = "YOU"
+        disableChoice1 = true
+        disableChoice2 = true
     }
     
     func path22(){
@@ -285,33 +302,6 @@ struct SwiftUIViewGame: View {
         bodyText = "You decided it would be foolish to look for your machete. As you take a step forward you can’t help but look back. Are you sure you don’t want to look for your machete?"
         choice1 = "Yes"
         choice2 = "NO"
-        disableChoice1 = false
-        disableChoice2 = false
-    }
-    
-    func path111(){
-        titleText = "Path 111"
-        bodyText = "Body"
-        choice2 = "Choice 2"
-        choice1 = "Choice 1"
-        disableChoice1 = false
-        disableChoice2 = false
-    }
-    
-    func path121(){
-        titleText = "Path 121"
-        bodyText = "Body"
-        choice2 = "Choice 2"
-        choice1 = "Choice 1"
-        disableChoice1 = false
-        disableChoice2 = false
-    }
-    
-    func path211(){
-        titleText = "Path 211"
-        bodyText = "Body"
-        choice2 = "Choice 2"
-        choice1 = "Choice 1"
         disableChoice1 = false
         disableChoice2 = false
     }
@@ -325,33 +315,6 @@ struct SwiftUIViewGame: View {
         disableChoice2 = true
     }
     
-    func path112(){
-        titleText = "Path 112"
-        bodyText = "Body"
-        choice2 = "Choice 2"
-        choice1 = "Choice 1"
-        disableChoice1 = false
-        disableChoice2 = false
-    }
-    
-    func path122(){
-        titleText = "Path 122"
-        bodyText = "Body"
-        choice2 = "Choice 2"
-        choice1 = "Choice 1"
-        disableChoice1 = false
-        disableChoice2 = false
-    }
-    
-    func path212(){
-        titleText = "Path 212"
-        bodyText = "Body"
-        choice2 = "Choice 2"
-        choice1 = "Choice 1"
-        disableChoice1 = false
-        disableChoice2 = false
-    }
-    
     func path222(){
         titleText = "Lets Go Back"
         bodyText = "You make your way back to where you previously stood. Looking around you slowly make your way around the cave, cautiously searching every corner for your machete. Placing your torch on the ground, you bend down to start picking up a huge boulder when you see a glint in the corner of your eye. Quickly whipping around you spy a shiny object in the corner of the cave, barely illuminated by your torch. As you make your way closer, you are able to make out an intricately carved wooden chest with a huge red jewel in the place of a lock. You pull out your map to see if you truly stumbled upon the fabled crown, but to your dismay, the map leads your father into the cave. You ponder your choices, still, trust your map or break the chest and claim what is yours. The map seems to be leading you in circles, and you are starting to doubt its validity, but who put the legendary crown in a chest all by its lonesome."
@@ -360,22 +323,43 @@ struct SwiftUIViewGame: View {
         disableChoice1 = false
         disableChoice2 = false
     }
+    
     func path2221(){
-        titleText = "Path 2221"
-        bodyText = "Body"
-        choice2 = "Choice 2"
-        choice1 = "Choice 1"
+        titleText = "Finding the machete"
+        bodyText = "You decide that the chest can wait, a machete is far more important in such a dangerous environment. After what felt like hours of non-stop searching you finally find it. Your machete, or at least you think it is yours, lay deep in a rock just like excalibur. You tug at it, but it doesn’t budge. You don’t know if you should just call it quits. The machete has been way more trouble than it is worth, but you don’t know what you could possibly use to defend yourself otherwise."
+        choice2 = "Keep trying"
+        choice1 = "Give up"
         disableChoice1 = false
         disableChoice2 = false
     }
+    
     func path2222(){
-        titleText = "Path 2222"
-        bodyText = "Body"
-        choice2 = "Choice 2"
-        choice1 = "Choice 1"
-        disableChoice1 = false
-        disableChoice2 = false
+        titleText = "Breaking the chest"
+        bodyText = "You bend down to grab the chest, but it doesn’t budge. Looking to your left you see a sizable rock and grab it. Bringing it down onto the chest the red jewel flashes brightly, illuminating the previously pitch-black cave into a red hue, and you get thrown back into the back wall of the cave. You hear a rumble, and looking up and a crack starts forming on the roof. You try with all your might to get out of the way, but your legs don’t budge. Taking one last look upwards, the last thing you see is a stalactite falling down right for your head."
+        choice2 = "DIED"
+        choice1 = "YOU"
+        disableChoice1 = true
+        disableChoice2 = true
     }
+    
+    func path22211(){
+        titleText = "Keep Trying"
+        bodyText = "Circling around the stone, you try to find any weakness. Running your hand down the side, you feel a crack infinitesimally small and invisible to the naked eye. You smash a nearby rock into the crack, slowly increasing its size. Before long, the stone lay in pieces and the machete was in your hand. The sword seems to have given you new found strength, and a sudden inkling on where the crown could be. You rush through the cave, torch held high above you, and sword by your side, until you stumble upon it. The treasure room. In the very middle lay the crown, unmistakable in it’s infinite perfection. The crown of the Irish Disco King. You lung for it and put it onto your head. You did it. You found the treasure. You are now the new Irish Disco King."
+        choice2 = ""
+        choice1 = ""
+        disableChoice1 = true
+        disableChoice2 = true
+    }
+    
+    func path22212(){
+        titleText = "Give up"
+        bodyText = "You give up and die. I don’t feel like writing stuff anymore. This is it. This path would have killed you anyways, I am just sparing you the effort."
+        choice2 = "DIED"
+        choice1 = "YOU"
+        disableChoice1 = true
+        disableChoice2 = true
+    }
+    
 }
 
 struct SwiftUIViewGame_Previews: PreviewProvider {
